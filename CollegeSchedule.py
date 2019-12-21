@@ -14,7 +14,7 @@ class CollegeSchedule:
     def total_hours(self):
         total_hours = 0
         for course in self.courses:
-            total_hours += course.class_hours.split(' ')[0]
+            total_hours += float(course.class_hours.split(' ')[0])
 
         return total_hours
 
@@ -40,14 +40,3 @@ class CollegeSchedule:
     # TODO: Add methods for checking for overlapping courses
     # TODO: COOL STUFF!!
         
-
-# initialize course variables
-class1 = CollegeCourse("25225")
-class2 = CollegeCourse("21850")
-class3 = CollegeCourse("23174")
-class4 = CollegeCourse("24761")
-class5 = CollegeCourse("22307")
-class6 = CollegeCourse("20958")
-my_schedule = CollegeSchedule([class1, class2, class3, class4, class5, class6])
-
-print(my_schedule.classes_per_day())

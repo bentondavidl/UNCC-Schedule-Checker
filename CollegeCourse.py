@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as request
+from Location import Location
 
 # URL to start scraping from
 # starting with catalog page that needs crn concatinated
@@ -26,11 +27,11 @@ class CollegeCourse:
         self.prefix = ""
         self.course_id = ""
         self.class_time = ""
-        self.class_location = ""
+        self.class_location = None
         self.class_days = ""
         self.instructors = ""
-        self.class_time2 = ""
-        self.class_location2 = ""
+        self.class_time2 = None
+        self.class_location2 = None
         self.total_seats = ""
         self.total_enrolled = ""
 
@@ -55,16 +56,18 @@ class CollegeCourse:
                 schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr')
                 elements = schedule_info.text.split('\n')
                 time, days, where, instructors = elements[2], elements[3], elements[4], elements[7]
+                loc1 = Location(where)
                 try:
                     schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr').findNext('tr')
                     elements = schedule_info.text.split('\n')
                     time2, days2, where2, instructors2 = elements[2], elements[3], elements[4], elements[7]
+                    loc2 = Location(where2)
                 except:
-                    time2, days2, where2, instructors2 = '','','',''
+                    time2, days2, loc2, instructors2 = '','','',''
 
         days = days + days2
         instructors = instructors + instructors2
-        return time, days, where, instructors, time2, where2
+        return time, days, loc1, instructors, time2, loc2
 
     def scrape_class_info(self):
         # opens the connection and downloads html from page_url
@@ -97,7 +100,7 @@ class CollegeCourse:
 
         self.class_type = lines[1]
         self.class_method = lines[2]
-        self.class_credits = lines[3]
+        self.class_hours = lines[3]
 
         class_size_table = data_container.table
         size_nums = class_size_table.findAll('td', {'class':'dddefault'})

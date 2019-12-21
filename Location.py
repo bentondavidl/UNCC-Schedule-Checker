@@ -8,7 +8,7 @@ request_url = 'https://maps.googleapis.com/maps/api/directions/json?origin={0}&d
 class Location:
     def __init__(self, loc):
         location = loc.split(' ')
-        self.building = "".join(location[:-1])
+        self.building = " ".join(location[:-1])
         self.room = location[-1]
 
     def get_time_between(self, other):
@@ -16,6 +16,10 @@ class Location:
             raise TypeError("Other must be a Location")
         if self.building == 'TBA' or other.building == 'TBA':
             return datetime.timedelta(minutes=20)
+
+        # edge case corrections
+        if self.building == 'Energy Prod & Infrastructr Ctr': self.building = 'EPIC'
+        if other.building == 'Energy Prod & Infrastructr Ctr': other.building = 'EPIC'
 
         origin = self.building.replace(' ','+') + ',+Charlotte,+NC+28223'
         destination = other.building.replace(' ','+') + ',+Charlotte,+NC+28223'
@@ -25,8 +29,6 @@ class Location:
         time = directions['routes'][0]['legs'][0]['duration']['value']
         return datetime.timedelta(seconds=int(time))
 
+    def __str__(self):
+        return self.building +' '+ self.room
 
-loc1 = Location('Woodward Hall 130')
-loc2 = Location('Robinson Hall 145')
-
-print(loc1.get_time_between(loc2))
