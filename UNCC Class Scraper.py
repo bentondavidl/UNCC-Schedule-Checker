@@ -9,6 +9,8 @@ schedule_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckctlg.p_disp_listcrs
 
 # CRN numbers for a whole schedule
 schedule = ["27350","21853","23749","20157","23191","23739","20161"]
+schedule2 = ["25225", "21850", "23174", "24761", "22307", "20958"]
+
 
 # define method to get schedule details
 def scrape_class_details(prefix, course_number, course_title):
@@ -77,6 +79,7 @@ def scrape_class_info(crn):
     print(class_credits)
     print(enrolled + '/' + seats)
     print(days)
+    print(where)
     print()
 
     return class_title, float(class_credits.split(' ')[0])

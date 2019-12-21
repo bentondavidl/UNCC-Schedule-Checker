@@ -29,6 +29,8 @@ class CollegeCourse:
         self.class_location = ""
         self.class_days = ""
         self.instructors = ""
+        self.class_time2 = ""
+        self.class_location2 = ""
         self.total_seats = ""
         self.total_enrolled = ""
 
@@ -53,8 +55,16 @@ class CollegeCourse:
                 schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr')
                 elements = schedule_info.text.split('\n')
                 time, days, where, instructors = elements[2], elements[3], elements[4], elements[7]
+                try:
+                    schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr').findNext('tr')
+                    elements = schedule_info.text.split('\n')
+                    time2, days2, where2, instructors2 = elements[2], elements[3], elements[4], elements[7]
+                except:
+                    time2, days2, where2, instructors2 = '','','',''
 
-        return time, days, where, instructors
+        days = days + days2
+        instructors = instructors + instructors2
+        return time, days, where, instructors, time2, where2
 
     def scrape_class_info(self):
         # opens the connection and downloads html from page_url
@@ -74,7 +84,7 @@ class CollegeCourse:
         self.prefix, self.course_id = split_title[2].split(' ')
         self.class_name = split_title[0]
 
-        self.class_time, self.class_days, self.class_location, self.instructors = self.scrape_class_details()
+        self.class_time, self.class_days, self.class_location, self.instructors, self.class_time2, self.class_location2 = self.scrape_class_details()
 
         data_container = page_soup.find('td', {"class":"dddefault"})
 
