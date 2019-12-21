@@ -11,7 +11,7 @@ schedule_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckctlg.p_disp_listcrs
 schedule = ["27350","21853","23749","20157","23191","23739","20161"]
 
 # define method to get schedule details
-def get_schedule_details(prefix, course_number, course_title):
+def scrape_class_details(prefix, course_number, course_title):
     # open connection and download html
     uClient = request(schedule_url.format(prefix, course_number))
 
@@ -32,12 +32,7 @@ def get_schedule_details(prefix, course_number, course_title):
     return time, days, where, instructors
 
 
-# items to track
-classes = []
-total_credits = 0.00
-
-# loop through each CRN number to get class information
-for crn in schedule:
+def scrape_class_info(crn):
     # opens the connection and downloads html from page_url
     uClient = request(crn_page_url+crn)
 
@@ -55,7 +50,7 @@ for crn in schedule:
     prefix, course_number = split_title[2].split(' ')
     class_title = split_title[0]
 
-    time, days, where, instructors = get_schedule_details(prefix, course_number, course_title)
+    time, days, where, instructors = scrape_class_details(prefix, course_number, course_title)
 
     data_container = page_soup.find('td', {"class":"dddefault"})
 
@@ -76,9 +71,6 @@ for crn in schedule:
     seats = size_nums[0].text
     enrolled = size_nums[1].text
 
-    classes.append(class_title)
-    total_credits = total_credits + float(class_credits.split(' ')[0])
-
     print(class_title)
     print(class_type)
     print(class_method)
@@ -86,5 +78,17 @@ for crn in schedule:
     print(enrolled + '/' + seats)
     print(days)
     print()
+
+    return class_title, float(class_credits.split(' ')[0])
+
+# items to track
+classes = []
+total_credits = 0.00
+
+# loop through each CRN number to get class information
+for crn in schedule:
+    class_name, credit_hours = scrape_class_info(crn)
+    classes.append(class_name)
+    total_credits = total_credits + credit_hours
 
 print('You are signed up for '+ str(len(classes))+' classes which total '+str(total_credits) +' credit hours')
