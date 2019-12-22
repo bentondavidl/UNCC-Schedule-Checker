@@ -60,6 +60,7 @@ class CollegeCourse:
                 time, days, where, instructors = elements[2], elements[3], elements[4], elements[7]
                 for day in days:
                     self.class_times[day] = [datetime.strptime(time.split(' - ')[0], '%I:%M %p'), datetime.strptime(time.split(' - ')[1], '%I:%M %p')]
+                    self.class_times[day].append(Location(where))
                 loc1 = Location(where)
                 try:
                     schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr').findNext('tr')
@@ -67,6 +68,7 @@ class CollegeCourse:
                     time2, days2, where2, instructors2 = elements[2], elements[3], elements[4], elements[7]
                     for day in days2:
                         self.class_times[day] = [datetime.strptime(time2.split(' - ')[0], '%I:%M %p'), datetime.strptime(time2.split(' - ')[1], '%I:%M %p')]
+                        self.class_times[day].append(Location(where2))
                     loc2 = Location(where2)
                 except:
                     time2, days2, loc2, instructors2 = '','','',''

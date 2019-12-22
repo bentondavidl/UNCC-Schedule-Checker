@@ -70,10 +70,21 @@ class CollegeSchedule:
                 for i in range(0, len(self.schedule[day]) - 1):
                     current_course = self.schedule[day][i]
                     next_course = self.schedule[day][i + 1]
-                    print((next_course.class_times[day][0] - current_course.class_times[day][1]))
                     if (next_course.class_times[day][0] - current_course.class_times[day][1]) <= timedelta(minutes=25):
                         possible_issues[day].append([current_course, next_course])
-        return possible_issues
+        
+        issues = {}
+        for day in possible_issues:
+            for class_change in possible_issues[day]:
+                given_transition_time = class_change[1].class_times[day][0] - class_change[0].class_times[day][1]
+                needed_transition_time = class_change[0].class_times[day][2].get_time_between(class_change[1].class_times[day][2])
+                if given_transition_time < needed_transition_time:
+                    try:
+                        issues[day].append(class_change)
+                    except:
+                        issues[day] = class_change
+
+        return issues
 
 
     # TODO: COOL STUFF!!
