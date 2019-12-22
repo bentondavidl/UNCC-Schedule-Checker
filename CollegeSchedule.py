@@ -1,4 +1,5 @@
 from CollegeCourse import CollegeCourse
+from datetime import timedelta
 
 class CollegeSchedule:
     def __init__(self, courses):
@@ -7,6 +8,14 @@ class CollegeSchedule:
             if not isinstance(course, CollegeCourse):
                 raise TypeError("courses must be an instance of CollegeCourse")
         self.courses = courses
+
+        self.schedule = {'M':[],'T':[],'W':[],'R':[],'F':[]}
+        for course in courses:
+            for day in self.schedule:
+                if day in course.class_times:
+                    self.schedule[day].append(course)
+        for day in self.schedule:
+            self.schedule[day] = sorted(self.schedule[day], key=lambda CollegeCourse: CollegeCourse.class_times[day][0])
 
     def course_count(self):
         return len(self.courses)
@@ -36,7 +45,36 @@ class CollegeSchedule:
             week_days[day] = self.classes_on(day)
         return week_days
     
+    def view_schedule(self):
+        print("\nMonday:\n--------------------------------")
+        for course in self.schedule['M']:
+            print(course.class_name + ": " + course.class_times['M'][0].strftime("%I:%M") +" - "+course.class_times['M'][1].strftime("%I:%M"))
+        print("\nTuesday:\n--------------------------------")
+        for course in self.schedule['T']:
+            print(course.class_name + ": " + course.class_times['T'][0].strftime("%I:%M") +" - "+course.class_times['T'][1].strftime("%I:%M"))
+        print("\nWednesday:\n--------------------------------")
+        for course in self.schedule['W']:
+            print(course.class_name + ": " + course.class_times['W'][0].strftime("%I:%M") +" - "+course.class_times['W'][1].strftime("%I:%M"))
+        print("\nThursday:\n--------------------------------")
+        for course in self.schedule['R']:
+            print(course.class_name + ": " + course.class_times['R'][0].strftime("%I:%M") +" - "+course.class_times['R'][1].strftime("%I:%M"))
+        print("\nFriday:\n--------------------------------")
+        for course in self.schedule['F']:
+            print(course.class_name + ": " + course.class_times['F'][0].strftime("%I:%M") +" - "+course.class_times['F'][1].strftime("%I:%M"))
+        print()
 
-    # TODO: Add methods for checking for overlapping courses
+    def find_time_issues(self):
+        possible_issues = {'M':[],'T':[],'W':[],'R':[],'F':[]}
+        for day in self.schedule:
+            if len(self.schedule[day]) > 1:
+                for i in range(0, len(self.schedule[day]) - 1):
+                    current_course = self.schedule[day][i]
+                    next_course = self.schedule[day][i + 1]
+                    print((next_course.class_times[day][0] - current_course.class_times[day][1]))
+                    if (next_course.class_times[day][0] - current_course.class_times[day][1]) <= timedelta(minutes=25):
+                        possible_issues[day].append([current_course, next_course])
+        return possible_issues
+
+
     # TODO: COOL STUFF!!
         

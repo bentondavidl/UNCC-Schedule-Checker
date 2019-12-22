@@ -13,14 +13,18 @@ schedule = ["27350","21853","23749","20157","23191","23739","20161"]
 schedule2 = ["25225", "21850", "23174", "24761", "22307", "20958"]
 print()
 # initialize course variables
-class1 = CollegeCourse("25225")
-class2 = CollegeCourse("21850")
-class3 = CollegeCourse("23174")
-class4 = CollegeCourse("24761")
-class5 = CollegeCourse("22307")
-class6 = CollegeCourse("20958")
+class1 = CollegeCourse("27350")
+class2 = CollegeCourse("21853")
+class3 = CollegeCourse("23749")
+class4 = CollegeCourse("20157")
+class5 = CollegeCourse("23191")
+class6 = CollegeCourse("23739")
+class7 = CollegeCourse("20161")
 
-my_schedule = CollegeSchedule([class1, class2, class3, class4, class5, class6])
+my_schedule = CollegeSchedule([class1, class2, class3, class4, class5, class6, class7])
+my_schedule.view_schedule()
+
+print(my_schedule.find_time_issues())
 
 try:
     bad_schedule = CollegeSchedule(schedule)

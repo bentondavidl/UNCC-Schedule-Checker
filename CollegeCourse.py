@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as request
 from Location import Location
+from datetime import datetime
 
 # URL to start scraping from
 # starting with catalog page that needs crn concatinated
@@ -26,14 +27,15 @@ class CollegeCourse:
         self.class_hours = ""
         self.prefix = ""
         self.course_id = ""
-        self.class_time = ""
+        self.class_time = "" # deprecate
         self.class_location = None
-        self.class_days = ""
+        self.class_days = "" # deprecate
         self.instructors = ""
         self.class_time2 = None
         self.class_location2 = None
         self.total_seats = ""
         self.total_enrolled = ""
+        self.class_times = {}
 
         self.scrape_class_info()
 
@@ -56,11 +58,15 @@ class CollegeCourse:
                 schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr')
                 elements = schedule_info.text.split('\n')
                 time, days, where, instructors = elements[2], elements[3], elements[4], elements[7]
+                for day in days:
+                    self.class_times[day] = [datetime.strptime(time.split(' - ')[0], '%I:%M %p'), datetime.strptime(time.split(' - ')[1], '%I:%M %p')]
                 loc1 = Location(where)
                 try:
                     schedule_info = course.parent.findNext('table').findNext('tr').findNext('tr').findNext('tr')
                     elements = schedule_info.text.split('\n')
                     time2, days2, where2, instructors2 = elements[2], elements[3], elements[4], elements[7]
+                    for day in days2:
+                        self.class_times[day] = [datetime.strptime(time2.split(' - ')[0], '%I:%M %p'), datetime.strptime(time2.split(' - ')[1], '%I:%M %p')]
                     loc2 = Location(where2)
                 except:
                     time2, days2, loc2, instructors2 = '','','',''
