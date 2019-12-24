@@ -32,7 +32,7 @@
         There were no conflicts found in your proposed schedule
     {% else %}
         {% for issue in issues %}
-            <s><script>resolve_day('{{issue}}');</script>:</s> Between {{ issues[issue][0].class_name }} and {{ issues[issue][1].class_name }}
+            <b><script>resolve_day('{{issue}}');</script>:</b> Between {{ issues[issue][0].class_name }} and {{ issues[issue][1].class_name }}<br/>
         {% endfor %}
     {% endif %}
     

@@ -12,7 +12,7 @@ bp = Blueprint(
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        crns = request.form.get('crns').split(',')
+        crns = request.form.get('crns').replace(' ','').split(',')
         
         courses = []
         for crn in crns:
