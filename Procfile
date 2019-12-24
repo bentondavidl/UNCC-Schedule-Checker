@@ -1,1 +1,1 @@
-web: app:__main__
+web: app:app
