@@ -1,1 +1,1 @@
-web: gunicorn app:ScheduleChecker.app
+web: gunicorn ScheduleChecker.app:app
