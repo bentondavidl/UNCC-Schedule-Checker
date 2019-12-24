@@ -79,7 +79,6 @@ class CollegeCourse(object):
 
     def scrape_class_info(self):
         # opens the connection and downloads html from page_url
-        print(self.crn)
         uClient = request(crn_page_url+self.crn)
 
         # parses html into soup so that it can be traversed as
