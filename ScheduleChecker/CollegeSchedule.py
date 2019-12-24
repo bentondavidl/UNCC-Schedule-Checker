@@ -1,7 +1,9 @@
-from CollegeCourse import CollegeCourse
+from ScheduleChecker.CollegeCourse import CollegeCourse
 from datetime import timedelta
+import json
+import jsonpickle
 
-class CollegeSchedule:
+class CollegeSchedule(object):
     def __init__(self, courses):
         # verify input type
         for course in courses:
@@ -87,5 +89,10 @@ class CollegeSchedule:
         return issues
 
 
-    # TODO: COOL STUFF!!
+    def export_schedule(self):
+        with open('schedules.json', 'w+') as f:
+            f.write(jsonpickle.encode(self))
+            print(jsonpickle.decode(jsonpickle.encode(self)))
+
+
         

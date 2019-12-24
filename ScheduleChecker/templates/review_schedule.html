@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h2>Here are your classes</h2>
+    <a href="/">Try a different schedule</a>
+    {% for day in classes %}   
+        <h3><script>resolve_day('{{day}}');</script>:</h3>
+        <table>
+            <tr>
+                <th>Class Name</th>
+                <th>Instructors</th>
+                <th>Meeting Location</th>
+                <th>Meeting Time</th>
+            </tr>
+            {% for class in classes[day] %}
+            <tr>
+                <td> {{ class.class_name }}</td>
+                <td>{{ class.instructors }}</td>
+                <td>{{ class.class_times[day][2] }}</td> <!-- class location -->
+                <td>
+                    <script>fix_time('{{ class.class_times[day][0] }}');</script> - <script>fix_time('{{ class.class_times[day][1] }}');</script>
+                </td>
+            </tr>
+                
+            {% endfor %}
+        </table>
+        <br/>
+    {% endfor %}
+
+    <h2>Possible Transition Time Conflicts</h2>
+    {% if not issues %}
+        There were no conflicts found in your proposed schedule
+    {% else %}
+        {% for issue in issues %}
+            <s><script>resolve_day('{{issue}}');</script>:</s> Between {{ issues[issue][0].class_name }} and {{ issues[issue][1].class_name }}
+        {% endfor %}
+    {% endif %}
+    
+{% endblock %}

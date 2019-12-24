@@ -1,4 +1,4 @@
-import settings
+import ScheduleChecker.settings as settings
 import requests
 import json
 import datetime

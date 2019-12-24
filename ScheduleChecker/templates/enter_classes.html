@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h2>Enter your CRN numbers bellow:</h2>
+    <form method="POST">
+        <label for="crns">CRN numbers
+            <textarea name="crns"></textarea>
+        </label>
+        <input type="submit" name="submit" value="Submit"/>
+    </form>
+{% endblock %}

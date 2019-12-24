@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as request
-from Location import Location
+from ScheduleChecker.Location import Location
 from datetime import datetime
 
 # URL to start scraping from
@@ -17,7 +17,7 @@ schedule_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckctlg.p_disp_listcrs
 # *possibly separate class         #
 ####################################
 
-class CollegeCourse:
+class CollegeCourse(object):
     def __init__(self, crn):
         self.crn = crn
         self.course_title = ""
@@ -79,6 +79,7 @@ class CollegeCourse:
 
     def scrape_class_info(self):
         # opens the connection and downloads html from page_url
+        print(self.crn)
         uClient = request(crn_page_url+self.crn)
 
         # parses html into soup so that it can be traversed as

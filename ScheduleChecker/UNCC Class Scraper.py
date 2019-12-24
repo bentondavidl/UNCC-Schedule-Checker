@@ -1,6 +1,6 @@
-from Location import Location
-from CollegeCourse import CollegeCourse
-from CollegeSchedule import CollegeSchedule
+from ScheduleChecker.Location import Location
+from ScheduleChecker.CollegeCourse import CollegeCourse
+from ScheduleChecker.CollegeSchedule import CollegeSchedule
 
 # URL to start scraping from
 # starting with catalog page that needs crn concatinated
@@ -24,7 +24,7 @@ class7 = CollegeCourse("20161")
 my_schedule = CollegeSchedule([class1, class2, class3, class4, class5, class6, class7])
 my_schedule.view_schedule()
 
-print('There are no time issues with your schedule.') if len(my_schedule.find_time_issues()) == 0 else print('There may be time issues with your schedule')
+# print('There are no time issues with your schedule.') if len(my_schedule.find_time_issues()) == 0 else print('There may be time issues with your schedule')
 
 try:
     bad_schedule = CollegeSchedule(schedule)
