@@ -118,6 +118,10 @@ class CollegeCourse(object):
         self.total_seats = size_nums[0].text
         self.total_enrolled = size_nums[1].text
 
+        self.waitlist_capacity = size_nums[3].text
+        self.waitlist_actual = size_nums[4].text
+        self.waitlist_remaining = size_nums[5].text
+
     # create a simple summary of the class that can be easily read
     def summarize(self):
         print()

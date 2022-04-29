@@ -1,4 +1,4 @@
-import ScheduleChecker.settings as settings
+from ScheduleChecker import api
 import requests
 import json
 import datetime
@@ -23,7 +23,7 @@ class Location:
 
         origin = self.building.replace(' ','+') + ',+Charlotte,+NC+28223'
         destination = other.building.replace(' ','+') + ',+Charlotte,+NC+28223'
-        response = requests.get(request_url.format(origin, destination, settings.API_KEY))
+        response = requests.get(request_url.format(origin, destination, api))
 
         directions = json.loads(response.text)
         time = directions['routes'][0]['legs'][0]['duration']['value']
