@@ -3,11 +3,13 @@ from urllib.request import urlopen as request
 from ScheduleChecker.Location import Location
 from datetime import datetime
 
+year = datetime.now().strftime("%Y")
+
 # URL to start scraping from
 # starting with catalog page that needs crn concatinated
-crn_page_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckschd.p_disp_detail_sched?term_in=202010&crn_in="
+crn_page_url = f"https://selfservice.uncc.edu/pls/BANPROD/bwckschd.p_disp_detail_sched?term_in={year}80&crn_in="
 # URL for schedule information. Needs to be formatted where {0}=prefix and {1}=course_number
-schedule_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckctlg.p_disp_listcrse?term_in=202010&subj_in={0}&crse_in={1}&schd_in=%25"
+schedule_url = "https://selfservice.uncc.edu/pls/BANPROD/bwckctlg.p_disp_listcrse?term_in={0}80&subj_in={1}&crse_in={2}&schd_in=%25"
 
 ####################################
 # I need to come back and clean up #
@@ -42,7 +44,7 @@ class CollegeCourse(object):
     # define method to get schedule details
     def scrape_class_details(self):
         # open connection and download html
-        uClient = request(schedule_url.format(self.prefix, self.course_id))
+        uClient = request(schedule_url.format(year, self.prefix, self.course_id))
 
         # parse html into soup data type so it can be treated as json
         page_soup = soup(uClient.read(), 'html.parser')
@@ -103,7 +105,7 @@ class CollegeCourse(object):
         lines = []
         for br in data_container.findAll('br'):
             line = br.nextSibling.strip()
-            if not line is '':
+            if line != '':
                 lines.append(line)
 
         self.class_type = lines[1]

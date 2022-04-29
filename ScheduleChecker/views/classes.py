@@ -4,8 +4,8 @@ from ScheduleChecker.CollegeCourse import CollegeCourse
 import jsonpickle
 
 bp = Blueprint(
-    __name__,
-    __name__, 
+    __name__.split('.')[-1],
+    __name__.split('.')[-1], 
     template_folder='templates'
 )
 
